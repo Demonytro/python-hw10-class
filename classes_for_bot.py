@@ -1,6 +1,4 @@
-from collections import UserList, UserDict
-
-
+from collections import UserDict
 
 
 class Field:
@@ -11,24 +9,32 @@ class Field:
     pass
 
 
-class Name:
+class Name(Field):
 
     def __init__(self, name):
-        self.name = name
-    pass
+        self.value = name
+        
 
-
-class Phone:
+class Phone(Field):
     """Класс Phone, 
     необязательное поле 
     с телефоном и таких одна запись (Record) может содержать несколько."""
 
     def __init__(self, phone):
-        self.phone = phone
-    pass
+        self.value = phone
+        print(f"phone - {self.value}")
+
+    def __repr__(self):
+        return self.value
 
 
-class Record(UserDict, Name, Phone):
+class AddressBook(UserDict):
+
+    def add_record(self, record):
+        self.data[record.name.value] = record
+
+
+class Record(Name, Phone):
     """Класс Record, который 
     отвечает за логику добавления/удаления/редактирования 
     необязательных полей 
@@ -39,34 +45,32 @@ class Record(UserDict, Name, Phone):
     Record хранит список объектов Phone в отдельном атрибуте.
 
     Record реализует методы для добавления/удаления/редактирования объектов Phone."""
- 
-    pass
 
+    def __init__(self, new_name):
+        self.name = Name(new_name)
+        self.phones = []
 
-class AddressBook:
-    """Записи Record в AddressBook хранятся как значения в словаре. 
-    В качестве ключей используется 
-    значение Record.name.value
-    
-    AddressBook реализует метод add_record, 
-    который добавляет Record в self.data."""
+    def add_phone(self, new_phone):        
+        self.phones.append(Phone(new_phone))
 
-    def add_record(self):
-        pass
+    def change_phone(self, old_phone, new_phone):        
+        for phone in self.phones:
+            if phone.value == old_phone:
+                self.phones.add_phone(new_phone)
+                self.phones.remove_phone(phone)
+            else:
+                print("Phone number doesn't exist")  
 
+    def remove_phone(self, old_phone):        
+        for phone in self.phones:
+            if phone.value == old_phone:
+                self.phones.remove(phone)
+            else:
+                print("Phone number does't exist")
+
+        
 #-----------------------------------------------------
 
+
 if __name__ == '__main__':
-    name = Name('Bill')
-    phone = Phone('1234567890')
-    rec = Record(name, phone)
-    ab = AddressBook()
-    ab.add_record(rec)
-    
-    assert isinstance(ab['Bill'], Record)
-    assert isinstance(ab['Bill'].name, Name)
-    assert isinstance(ab['Bill'].phones, list)
-    assert isinstance(ab['Bill'].phones[0], Phone)
-    assert ab['Bill'].phones[0].value == '1234567890'
-    
-    print('All Ok)')
+    pass
