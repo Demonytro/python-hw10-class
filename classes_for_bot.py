@@ -22,7 +22,7 @@ class Phone(Field):
 
     def __init__(self, phone):
         self.value = phone
-        print(f"phone - {self.value}   {type(self.value)}")
+        # print(f"phone - {self.value}   {type(self.value)}")
 
     def __repr__(self):
         return self.value
@@ -34,7 +34,7 @@ class AddressBook(UserDict):     #  , Record
     #     super().
 
     def add_record(self, record):
-        print(f"record111 - {record.name.value}   {type(record.name.value)}")
+        # print(f"record111 - {record.name.value}   {type(record.name.value)}")
         self.data[record.name.value] = record
 
 
@@ -50,13 +50,15 @@ class Record:
 
     Record реализует методы для добавления/удаления/редактирования объектов Phone."""
 
-    def __init__(self, new_name, new_phone):
+    def __init__(self, new_name, new_phone=None):
         self.name = new_name
         self.phones = []
-        print(f"phone111 - {new_phone}   {type(phone.value)}")
-        print(f"phone111 - {self.name.value}   {type(self.name.value)}")
+        if new_phone:
+            self.add_phone(new_phone)
+        # print(f"phone111 - {new_phone}   {type(phone.value)}")
+        # print(f"phone111 - {self.name.value}   {type(self.name.value)}")
 
-    # def add_phone(self, new_phone):        
+    def add_phone(self, new_phone):        
         self.phones.append(new_phone)
 
     def change_phone(self, old_phone, new_phone):        
